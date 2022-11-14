@@ -19,4 +19,24 @@ with open(full_path, 'rt', encoding='UTF-8') as file:
 
         cook_book[dish_name] = ingredients
 
-print(cook_book)   
+print(cook_book) 
+
+def get_shop_list_by_dishes(dishes, person_count):
+    res = {}
+    book = cook_book.keys()
+    for dish in dishes:        
+        if dish in book:
+            for ingredients in cook_book[dish]:
+                ingredient_name, quantity, measure = ingredients
+                if ingredients[ingredient_name] not in res:
+                    res[ingredients[ingredient_name]] = {'measure' : ingredients[measure],
+                        'quantity' : int(ingredients[quantity]) * person_count}
+                else:
+                    res[ingredients[ingredient_name]][quantity] += int(ingredients[quantity]) * person_count         
+        else:   
+            print(f'Блюдо {dish} отсутствует в кулинарной книге') 
+            
+    return res      
+         
+a = get_shop_list_by_dishes(['Фахитос', 'Омлет', 'Запеченный картофель'], 3)
+print(a)
