@@ -34,9 +34,32 @@ def get_shop_list_by_dishes(dishes, person_count):
                 else:
                     res[ingredients[ingredient_name]][quantity] += int(ingredients[quantity]) * person_count         
         else:   
-            print(f'Блюдо {dish} отсутствует в кулинарной книге') 
-            
+            print(f'Блюдо {dish} отсутствует в кулинарной книге')          
     return res      
          
 a = get_shop_list_by_dishes(['Фахитос', 'Омлет', 'Запеченный картофель'], 3)
 print(a)
+
+folder_name = 'sorted'
+file_name1 = '1.txt'
+file_name2 = '2.txt'
+file_name3 = '3.txt'
+full_path1 = os.path.join(current, folder_name, file_name1)
+full_path2 = os.path.join(current, folder_name, file_name2)
+full_path3 = os.path.join(current, folder_name, file_name3)
+
+with open(full_path1, 'rt', encoding='UTF-8') as file1,\
+    open(full_path2, 'rt', encoding='UTF-8') as file2,\
+    open(full_path3, 'rt', encoding='UTF-8') as file3,\
+    open('sorted/result.txt', 'wt', encoding='UTF-8') as file_result:
+
+    def lines_file(file_input):
+        read_file = file_input.readlines()
+        info = ['\n' +  file_input.name + '\n', str(len(read_file)) + '\n' ]
+        return info + read_file 
+
+    files = [lines_file(file1), lines_file(file2), lines_file(file3)]
+    res = sorted(files, key=len)
+    result_text = res[0] + res[1] + res[2]
+    for line in result_text:
+        file_result.write(line)
